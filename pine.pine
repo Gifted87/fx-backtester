@@ -1,0 +1,389 @@
+//@version=6
+// ═══════════════════════════════════════════════════════════════════════════════════════
+//  MORNING / EVENING STAR + RSI REVERSAL — SIGNAL INDICATOR
+// ═══════════════════════════════════════════════════════════════════════════════════════
+indicator("Morning / Evening Star + RSI Reversal Strategy", "Star+RSI", overlay = true, max_labels_count = 500, max_boxes_count = 500)
+
+// ═══════════════════════════════════════════ INPUTS ═══════════════════════════════════════════
+
+string G1 = "1 · RSI Reversal — Signal Engine"
+bool   rsiEnabled = input.bool(true, "Require RSI reversal", group = G1)
+int    rsiLen     = input.int(14, "RSI length", minval = 1, group = G1)
+float  rsiSrc     = input.source(close, "RSI source", group = G1)
+float  rsiOs      = input.float(30.0, "Oversold level", minval = 0.0, maxval = 100.0, group = G1)
+float  rsiOb      = input.float(70.0, "Overbought level", minval = 0.0, maxval = 100.0, group = G1)
+int    rsiWin     = input.int(0, "Cross window (bars)", minval = 0, group = G1)
+bool   rsiMaEnabled = input.bool(true, "Require RSI vs its MA at the cross", group = G1)
+int    rsiMaLen     = input.int(14, "RSI MA length", minval = 1, group = G1)
+string rsiMaType    = input.string("SMA", "RSI MA type", options = ["SMA", "EMA", "WMA"], group = G1)
+
+string G2 = "2 · Star Pattern Quality"
+float  starBodyFactor  = input.float(0.35, "Star body factor (× neighbour)", minval = 0.05, step = 0.05, group = G2)
+float  starRangeFactor = input.float(0.40, "Star body / own range",        minval = 0.05, step = 0.05, group = G2)
+float  thirdBodyFactor = input.float(0.70, "Confirmation body factor (× first leg)", minval = 0.1, step = 0.1, group = G2)
+float  firstVsThird    = input.float(0.65, "First-leg body ≥ third body ×", minval = 0.0, maxval = 1.0, step = 0.05, group = G2)
+float  starPenetration = input.float(0.50, "Penetration into first-leg body", minval = 0.1, maxval = 1.0, step = 0.05, group = G2)
+bool   starDetach      = input.bool(true, "Require soft detachment (gap substitute)", group = G2)
+float  minBodyPct      = input.float(10.0, "Doji guard · first-leg body %", minval = 0.0, maxval = 100.0, group = G2)
+float  strongThresh    = input.float(2.0, "Strong signal threshold (×)", minval = 0.1, step = 0.1, group = G2)
+bool   starColorEnabled = input.bool(true, "Require star & 3rd candle same colour", group = G2)
+float  starColorPct     = input.float(10.0, "Star colour-ambiguous body %", minval = 0.0, maxval = 100.0, group = G2, tooltip = "Star body as % of its own range.\nBelow this threshold the star is treated as a doji and the colour-match rule is waived.\nAbove it the star must match the confirmation candle's direction.")
+
+string G3 = "3 · SMA Trend Context (optional)"
+bool   smaEnabled = input.bool(false, "Enable SMA filter", group = G3)
+int    smaLen     = input.int(50, "SMA length", minval = 1, group = G3)
+float  smaSrc     = input.source(close, "SMA source", group = G3)
+string smaMode    = input.string("With trend", "Relationship", options = ["With trend", "Reversion"], group = G3)
+
+string G4 = "4 · RSI(2) Extreme-Frequency Environment"
+bool  envEnabled  = input.bool(true, "Enable RSI(2) environment filter", group = G4)
+int   envLen      = input.int(2, "RSI period", minval = 1, group = G4)
+int   envLookback = input.int(30, "Lookback (candles)", minval = 5, maxval = 500, group = G4)
+float envOs       = input.float(30.0, "Oversold · bearish group", minval = 0.0, maxval = 100.0, group = G4)
+float envOb       = input.float(70.0, "Overbought · bullish group", minval = 0.0, maxval = 100.0, group = G4)
+float envImb      = input.float(1.5, "Imbalance threshold (x)", minval = 1.0, step = 0.1, group = G4)
+
+string G5 = "5 · Chaikin Money Flow"
+bool  cmfEnabled = input.bool(true, "Enable CMF filter", group = G5)
+int   cmfLen     = input.int(20, "CMF length", minval = 1, group = G5)
+float cmfZero    = input.float(0.0, "Zero level", group = G5)
+
+string G6 = "6 · Visuals"
+bool  showLabels  = input.bool(true, "Signal labels", group = G6)
+bool  showFrames  = input.bool(true, "Pattern frames", group = G6)
+bool  recolorBars = input.bool(false, "Recolor signal candles", group = G6)
+bool  showPreview = input.bool(true, "Live preview on developing candle", group = G6)
+bool  showStarTag = input.bool(true, "Tag the star shape in the tooltip", group = G6)
+color bullColor   = input.color(#26a69a, "Bull", inline = "cc", group = G6)
+color bearColor   = input.color(#ef5350, "Bear", inline = "cc", group = G6)
+
+string G7 = "7 · Debug"
+bool debugOn  = input.bool(false, "Debug mode — label rejected stars", group = G7)
+bool debugAll = input.bool(false, "Show all rejection reasons", group = G7)
+
+string G8 = "8 · Dashboard"
+bool   dashOn   = input.bool(true, "Show dashboard", group = G8)
+string dashPos  = input.string("Top Right", "Position", options = ["Top Right", "Top Left", "Bottom Right", "Bottom Left", "Middle Right", "Middle Left"], group = G8)
+string dashSize = input.string("Small", "Text size", options = ["Tiny", "Small", "Normal"], group = G8)
+
+string G9 = "9 · Statistics"
+int statLookback = input.int(100, "Hit-count lookback (bars)", minval = 10, maxval = 500, group = G9)
+
+// ═══════════════════════════════════════════ HELPERS ══════════════════════════════════════════
+
+f_pos(string p) =>
+    switch p
+        "Top Left"     => position.top_left
+        "Bottom Left"  => position.bottom_left
+        "Bottom Right" => position.bottom_right
+        "Middle Left"  => position.middle_left
+        "Middle Right" => position.middle_right
+        => position.top_right
+
+f_txtSize(string s) =>
+    s == "Tiny" ? size.tiny : s == "Normal" ? size.normal : size.small
+
+// ═══════════════════════════════════════ CORE CALCULATIONS ═════════════════════════════════════
+
+// Index map:  [2] = first leg · [1] = star (middle) · [0] = confirmation candle
+float body1  = math.abs(close[2] - open[2])
+float range1 = high[2] - low[2]
+float body1Pct = range1 > 0 ? body1 / range1 * 100.0 : 0.0
+float body2  = math.abs(close[1] - open[1])
+float range2 = high[1] - low[1]
+float body3  = math.abs(close    - open)
+float bodyRatio = body1 > 0 ? body3 / body1 : na
+
+float starUpperWick = high[1] - math.max(open[1], close[1])
+float starLowerWick = math.min(open[1], close[1]) - low[1]
+float starBodyPct   = range2 > 0 ? body2 / range2 * 100.0 : na
+
+// ── RSI ──
+float rsi = ta.rsi(rsiSrc, rsiLen)
+bool  rsiCrossUp = not na(rsi) and not na(rsi[1]) and rsi[1] < rsiOs and rsi >= rsiOs
+bool  rsiCrossDn = not na(rsi) and not na(rsi[1]) and rsi[1] > rsiOb and rsi <= rsiOb
+
+// ── RSI moving average ──
+float rsiMa = rsiMaType == "EMA" ? ta.ema(rsi, rsiMaLen) : rsiMaType == "WMA" ? ta.wma(rsi, rsiMaLen) : ta.sma(rsi, rsiMaLen)
+
+var int lastCrossDir = 0
+var int lastCrossBar = na
+if rsiCrossUp
+    lastCrossDir := 1
+    lastCrossBar := bar_index
+if rsiCrossDn
+    lastCrossDir := -1
+    lastCrossBar := bar_index
+int crossAge = bar_index - lastCrossBar
+
+// ── Star pattern detection ──
+bool firstBear = close[2] < open[2]
+bool firstBull = close[2] > open[2]
+bool thirdBull = close    > open
+bool thirdBear = close    < open
+
+bool middleSmall = body2 <= body1 * starBodyFactor
+               and body2 <= body3 * starBodyFactor
+               and body2 <= range2 * starRangeFactor
+
+bool thirdReal   = body3 >= body1 * thirdBodyFactor
+bool firstLegBig = body1 >= body3 * firstVsThird
+
+float penBullLevel  = math.max(open[2], close[2]) - body1 * starPenetration
+float penBearLevel  = math.min(open[2], close[2]) + body1 * starPenetration
+bool  penetrateBull = thirdBull and close > penBullLevel
+bool  penetrateBear = thirdBear and close < penBearLevel
+
+bool detachBull = not starDetach or math.min(open[1], close[1]) >= math.min(open[2], close[2])
+bool detachBear = not starDetach or math.max(open[1], close[1]) <= math.max(open[2], close[2])
+
+// ── Star colour vs confirmation candle ──
+// If the star's body is too small a fraction of its own range, its colour is
+// ambiguous (a doji), and the colour-match rule is waived for that bar.
+bool  starBull      = close[1] > open[1]
+bool  starBear      = close[1] < open[1]
+bool  starAmbiguous = na(starBodyPct) or starBodyPct < starColorPct
+bool  starColorBull = not starColorEnabled or starAmbiguous or starBull
+bool  starColorBear = not starColorEnabled or starAmbiguous or starBear
+
+bool morningStar = firstBear and thirdBull and middleSmall and thirdReal and firstLegBig and starColorBull and penetrateBull and detachBull
+bool eveningStar = firstBull and thirdBear and middleSmall and thirdReal and firstLegBig and starColorBear and penetrateBear and detachBear
+
+// ── SMA ──
+float smaVal = ta.sma(smaSrc, smaLen)
+
+// ── RSI(2) environment ──
+float envRsi      = ta.rsi(close, envLen)
+float envBearFlag = not na(envRsi) and envRsi < envOs ? 1.0 : 0.0
+float envBullFlag = not na(envRsi) and envRsi > envOb ? 1.0 : 0.0
+float envBearCntF = math.sum(envBearFlag, envLookback)
+float envBullCntF = math.sum(envBullFlag, envLookback)
+bool  envBearish  = not na(envBearCntF) and envBearCntF > envBullCntF * envImb
+bool  envBullish  = not na(envBullCntF) and envBullCntF > envBearCntF * envImb
+string envState   = envBearish ? "Bearish" : envBullish ? "Bullish" : "Neutral"
+
+// ── CMF ──
+float cmfRange  = high - low
+float cmfMfm    = cmfRange > 0 ? ((close - low) - (high - close)) / cmfRange : 0.0
+float cmfMfv    = cmfMfm * volume
+float cmfVolSum = math.sum(volume, cmfLen)
+float cmfMfvSum = math.sum(cmfMfv, cmfLen)
+float cmfVal    = cmfVolSum > 0 ? cmfMfvSum / cmfVolSum : na
+float cmfPrev   = cmfVal[1]
+bool  cmfCrossUp = not na(cmfVal) and not na(cmfPrev) and cmfPrev < cmfZero and cmfVal >= cmfZero
+bool  cmfCrossDn = not na(cmfVal) and not na(cmfPrev) and cmfPrev > cmfZero and cmfVal <= cmfZero
+
+// ═══════════════════════════════ FILTERS · SIGNAL PIPELINE ═══════════════════════════════════
+
+bool dojiOk       = body1Pct >= minBodyPct
+bool factorGateOk = not na(bodyRatio) and body3 >= body1 * thirdBodyFactor
+
+bool rsiMaBullOk = not rsiMaEnabled or (not na(rsiMa) and rsi >= rsiMa)
+bool rsiMaBearOk = not rsiMaEnabled or (not na(rsiMa) and rsi <= rsiMa)
+
+bool bullRsiOk = not rsiEnabled or ((lastCrossDir ==  1 and not na(crossAge) and crossAge <= rsiWin) and rsiMaBullOk)
+bool bearRsiOk = not rsiEnabled or ((lastCrossDir == -1 and not na(crossAge) and crossAge <= rsiWin) and rsiMaBearOk)
+
+bool smaBullOk = not smaEnabled or (not na(smaVal) and (smaMode == "With trend" ? close > smaVal : close < smaVal))
+bool smaBearOk = not smaEnabled or (not na(smaVal) and (smaMode == "With trend" ? close < smaVal : close > smaVal))
+
+bool envBullOk = not envEnabled or not envBearish
+bool envBearOk = not envEnabled or not envBullish
+
+bool cmfBullOk = not cmfEnabled or na(cmfVal) or cmfVal < cmfZero or cmfCrossUp
+bool cmfBearOk = not cmfEnabled or na(cmfVal) or cmfVal > cmfZero or cmfCrossDn
+
+bool bullSignal = morningStar and dojiOk and factorGateOk and firstLegBig and bullRsiOk and smaBullOk and envBullOk and cmfBullOk
+bool bearSignal = eveningStar and dojiOk and factorGateOk and firstLegBig and bearRsiOk and smaBearOk and envBearOk and cmfBearOk
+
+f_rejectTxt(bool forBull, bool allReasons) =>
+    txt = ""
+    if not dojiOk
+        txt := "✗ doji"
+    if not factorGateOk and (allReasons or txt == "")
+        txt := txt == "" ? "✗ factor" : txt + " · ✗ factor"
+    if not firstLegBig and (allReasons or txt == "")
+        txt := txt == "" ? "✗ 1st/3rd" : txt + " · ✗ 1st/3rd"
+    if starColorEnabled and not (forBull ? starColorBull : starColorBear) and (allReasons or txt == "")
+        txt := txt == "" ? "✗ colour" : txt + " · ✗ colour"
+    if rsiEnabled and not (forBull ? bullRsiOk : bearRsiOk) and (allReasons or txt == "")
+        txt := txt == "" ? "✗ RSI" : txt + " · ✗ RSI"
+    if rsiEnabled and rsiMaEnabled and not (forBull ? rsiMaBullOk : rsiMaBearOk) and (allReasons or txt == "")
+        txt := txt == "" ? "✗ RSI-MA" : txt + " · ✗ RSI-MA"
+    if smaEnabled and not (forBull ? smaBullOk : smaBearOk) and (allReasons or txt == "")
+        txt := txt == "" ? "✗ trend" : txt + " · ✗ trend"
+    if envEnabled and not (forBull ? envBullOk : envBearOk) and (allReasons or txt == "")
+        txt := txt == "" ? "✗ RSI(2)" : txt + " · ✗ RSI(2)"
+    if cmfEnabled and not na(cmfVal) and not (forBull ? cmfBullOk : cmfBearOk) and (allReasons or txt == "")
+        txt := txt == "" ? "✗ CMF" : txt + " · ✗ CMF"
+    txt
+
+// ═══════════════════════════════ CONFIRMATION · STATISTICS ═════════════════════════════════════
+
+bool confirmedBar    = barstate.isconfirmed or barstate.ishistory
+bool bullConfirmed   = bullSignal and confirmedBar
+bool bearConfirmed   = bearSignal and confirmedBar
+bool anyConfirmed    = bullConfirmed or bearConfirmed
+bool strongConfirmed = anyConfirmed and bodyRatio >= strongThresh
+
+string starShape = showStarTag and not na(starBodyPct) and starBodyPct < 10 ? "doji"
+                 : showStarTag and starLowerWick > body2 * 2 and starUpperWick < body2 ? "hammer"
+                 : showStarTag and starUpperWick > body2 * 2 and starLowerWick < body2 ? "inv. hammer"
+                 : showStarTag ? "pin bar" : ""
+
+var int   lastSigDir   = 0
+var int   lastSigBar   = na
+var float lastSigRatio = na
+var float lastSigRsi   = na
+var float lastSigPx    = na
+if anyConfirmed
+    lastSigDir   := bullConfirmed ? 1 : -1
+    lastSigBar   := bar_index
+    lastSigRatio := bodyRatio
+    lastSigRsi   := rsi
+    lastSigPx    := close
+
+float hitFlag = anyConfirmed ? 1.0 : 0.0
+float hits    = math.sum(hitFlag, statLookback)
+float movePct = na(lastSigPx) or lastSigPx == 0 ? na : lastSigDir == 1 ? (close / lastSigPx - 1.0) * 100.0 : (1.0 - close / lastSigPx) * 100.0
+
+// ═══════════════════════════════════════ VISUALS ═════════════════════════════════════════════
+
+if anyConfirmed and showLabels
+    string rsiStr = na(rsi) ? "—" : str.tostring(rsi, "#.#")
+    color  sigCol = bullConfirmed ? bullColor : bearColor
+    string lblTxt = (bullConfirmed ? "▲ " : "▼ ") + str.tostring(bodyRatio, "#.#") + "× · RSI " + rsiStr
+    string tipTxt = "Confirmation body " + str.tostring(body3, format.mintick) + " vs first leg " + str.tostring(body1, format.mintick) + "\nBody ratio " + str.tostring(bodyRatio, "#.##") + "×" + (strongConfirmed ? " · STRONG" : "") + "\nStar body " + str.tostring(body2, format.mintick) + " · " + (na(starBodyPct) ? "—" : str.tostring(starBodyPct, "#.#") + "% of range") + (starShape == "" ? "" : " · " + starShape) + (starAmbiguous ? " · colour waived" : "") + "\nRSI " + (na(rsi) ? "—" : str.tostring(rsi, "#.#")) + " vs MA(" + str.tostring(rsiMaLen) + ") " + (na(rsiMa) ? "—" : str.tostring(rsiMa, "#.#")) + "\nRSI(2) env " + envState + " · bear " + (na(envBearCntF) ? "?" : str.tostring(envBearCntF, "#")) + " · bull " + (na(envBullCntF) ? "?" : str.tostring(envBullCntF, "#")) + "\nCMF " + (na(cmfVal) ? "n/a" : str.tostring(cmfVal, "#.####"))
+    label.new(bar_index, na, lblTxt, yloc = bullConfirmed ? yloc.belowbar : yloc.abovebar, style = bullConfirmed ? label.style_label_up : label.style_label_down, color = sigCol, textcolor = color.white, size = strongConfirmed ? size.normal : size.small, tooltip = tipTxt)
+
+if anyConfirmed and showFrames
+    color fc = bullConfirmed ? bullColor : bearColor
+    box.new(bar_index - 2, math.max(math.max(high, high[1]), high[2]), bar_index, math.min(math.min(low, low[1]), low[2]), border_color = color.new(fc, 30), border_width = 1, border_style = line.style_solid, bgcolor = color.new(fc, 90))
+
+if debugOn and confirmedBar and (morningStar or eveningStar) and not anyConfirmed
+    string dbgTxt = f_rejectTxt(morningStar, debugAll)
+    label.new(bar_index, na, dbgTxt == "" ? "✗" : dbgTxt, yloc = morningStar ? yloc.belowbar : yloc.abovebar, style = morningStar ? label.style_label_up : label.style_label_down, color = color.new(color.gray, 30), textcolor = color.white, size = size.tiny)
+
+barcolor(recolorBars and bullSignal ? bullColor : recolorBars and bearSignal ? bearColor : na, title = "Signal candles")
+
+bool previewBull = showPreview and bullSignal and barstate.isrealtime and not barstate.isconfirmed
+bool previewBear = showPreview and bearSignal and barstate.isrealtime and not barstate.isconfirmed
+plotshape(previewBull, "Bullish preview", shape.triangleup,   location.belowbar, bullColor, size = size.small)
+plotshape(previewBear, "Bearish preview", shape.triangledown, location.abovebar, bearColor, size = size.small)
+
+plot(rsi,   "RSI",         display = display.data_window)
+plot(rsiMa, "RSI MA",      display = display.data_window)
+plot(envRsi, "RSI(2) environment", display = display.data_window)
+plot(cmfVal, "CMF",        display = display.data_window)
+plot(bodyRatio, "Body ratio (confirm / first leg)", display = display.data_window)
+plot(starBodyPct, "Star body %", display = display.data_window)
+plot(envBearish ? -1.0 : envBullish ? 1.0 : 0.0, "Env state (-1 bear / 0 neutral / 1 bull)", display = display.data_window)
+
+// ═══════════════════════════════════════ DASHBOARD ═══════════════════════════════════════════
+
+var table dash = na
+string TS      = f_txtSize(dashSize)
+color  FG_COL  = chart.fg_color
+color  DIM_COL = color.new(chart.fg_color, 30)
+color  OFF_COL = color.new(chart.fg_color, 45)
+color  OK_COL  = #089981
+color  BAD_COL = #f23645
+
+f_cell(int c, int row, string txt, color txtCol, string hAlign, color bg) =>
+    table.cell(dash, c, row, txt, text_color = txtCol, text_halign = hAlign, bgcolor = bg, text_size = TS)
+    txt
+
+f_mark(int c, int row, bool enabled, bool ok) =>
+    f_cell(c, row, enabled ? (ok ? "✓" : "✗") : "—", enabled ? (ok ? OK_COL : BAD_COL) : OFF_COL, text.align_center, na)
+
+if dashOn and barstate.islast
+    if na(dash)
+        dash := table.new(f_pos(dashPos), 3, 18, bgcolor = chart.bg_color, frame_color = color.new(chart.fg_color, 72), frame_width = 1, border_color = color.new(chart.fg_color, 84), border_width = 1)
+        table.merge_cells(dash, 0, 0, 2, 0)
+        table.merge_cells(dash, 1, 1, 2, 1)
+        table.merge_cells(dash, 1, 2, 2, 2)
+        table.merge_cells(dash, 1, 3, 2, 3)
+        table.merge_cells(dash, 1, 4, 2, 4)
+        table.merge_cells(dash, 1, 7, 2, 7)
+        table.merge_cells(dash, 1, 8, 2, 8)
+        table.merge_cells(dash, 1, 12, 2, 12)
+        table.merge_cells(dash, 1, 13, 2, 13)
+        table.merge_cells(dash, 1, 14, 2, 14)
+        table.merge_cells(dash, 1, 15, 2, 15)
+        table.merge_cells(dash, 1, 16, 2, 16)
+        table.merge_cells(dash, 1, 17, 2, 17)
+
+    f_cell(0, 0, "MORNING / EVENING STAR + RSI", FG_COL, text.align_left, color.new(chart.fg_color, 86))
+
+    f_cell(0, 1, "RSI (" + str.tostring(rsiLen) + ") · MA " + str.tostring(rsiMaLen), DIM_COL, text.align_left, na)
+    f_cell(1, 1, na(rsi) ? "n/a" : str.tostring(rsi, "#.#") + (na(rsiMa) ? "" : " vs " + str.tostring(rsiMa, "#.#")), FG_COL, text.align_left, na)
+
+    string crossTxt = not rsiEnabled ? "disabled" : na(crossAge) ? "no cross yet" : (lastCrossDir == 1 ? "▲ up" : "▼ down") + " · " + str.tostring(crossAge) + (crossAge == 1 ? " bar" : " bars") + " ago · " + (crossAge <= rsiWin ? "armed" : "stale")
+    color  crossCol = not rsiEnabled or na(crossAge) ? DIM_COL : crossAge <= rsiWin ? OK_COL : BAD_COL
+    f_cell(0, 2, "RSI cross", DIM_COL, text.align_left, na)
+    f_cell(1, 2, crossTxt, crossCol, text.align_left, na)
+
+    f_cell(0, 3, "Body ratio (confirm / first leg)", DIM_COL, text.align_left, na)
+    f_cell(1, 3, na(bodyRatio) ? "—" : str.tostring(bodyRatio, "#.##") + "×", FG_COL, text.align_left, na)
+
+    f_cell(0, 4, "Star body % of range", DIM_COL, text.align_left, na)
+    string starPctTxt = na(starBodyPct) ? "—" : str.tostring(starBodyPct, "#.#") + "%" + (starAmbiguous and starColorEnabled ? " · colour waived" : "")
+    f_cell(1, 4, starPctTxt, starAmbiguous and starColorEnabled ? color.orange : FG_COL, text.align_left, na)
+
+    color hdrBg = color.new(chart.fg_color, 90)
+    f_cell(0, 5, "FILTER", DIM_COL, text.align_left, hdrBg)
+    f_cell(1, 5, "BULL", DIM_COL, text.align_center, hdrBg)
+    f_cell(2, 5, "BEAR", DIM_COL, text.align_center, hdrBg)
+
+    f_cell(0, 6, "RSI reversal + MA", DIM_COL, text.align_left, na)
+    f_mark(1, 6, rsiEnabled, bullRsiOk)
+    f_mark(2, 6, rsiEnabled, bearRsiOk)
+
+    f_cell(0, 7, "Star colour vs 3rd", DIM_COL, text.align_left, na)
+    f_mark(1, 7, starColorEnabled, starColorBull)
+    f_mark(2, 7, starColorEnabled, starColorBear)
+
+    f_cell(0, 8, "Body band (1st vs 3rd)", DIM_COL, text.align_left, na)
+    string factorTxt = na(bodyRatio) ? "✗ n/a" : (factorGateOk and firstLegBig ? "✓ " : "✗ ") + str.tostring(bodyRatio, "#.##") + "× · band " + str.tostring(thirdBodyFactor, "#.##") + "–" + str.tostring(1.0 / firstVsThird, "#.##") + "×"
+    f_cell(1, 8, factorTxt, factorGateOk and firstLegBig ? OK_COL : BAD_COL, text.align_left, na)
+
+    f_cell(0, 9, "SMA context", DIM_COL, text.align_left, na)
+    f_mark(1, 9, smaEnabled, smaBullOk)
+    f_mark(2, 9, smaEnabled, smaBearOk)
+
+    f_cell(0, 10, "RSI(2) environment", DIM_COL, text.align_left, na)
+    f_mark(1, 10, envEnabled, envBullOk)
+    f_mark(2, 10, envEnabled, envBearOk)
+
+    f_cell(0, 11, "CMF", DIM_COL, text.align_left, na)
+    if cmfEnabled and na(cmfVal)
+        f_cell(1, 11, "n/a", color.orange, text.align_center, na)
+        f_cell(2, 11, "n/a", color.orange, text.align_center, na)
+    else
+        f_mark(1, 11, cmfEnabled, cmfBullOk)
+        f_mark(2, 11, cmfEnabled, cmfBearOk)
+
+    f_cell(0, 12, "RSI(2) environment", DIM_COL, text.align_left, na)
+    f_cell(1, 12, envEnabled ? envState : envState + " (off)", envBearish ? bearColor : envBullish ? bullColor : FG_COL, text.align_left, na)
+
+    f_cell(0, 13, "RSI(2) counts · " + str.tostring(envLookback) + " bars", DIM_COL, text.align_left, na)
+    f_cell(1, 13, "bear " + (na(envBearCntF) ? "—" : str.tostring(envBearCntF, "#")) + " · bull " + (na(envBullCntF) ? "—" : str.tostring(envBullCntF, "#")), FG_COL, text.align_left, na)
+
+    f_cell(0, 14, "CMF (" + str.tostring(cmfLen) + ")", DIM_COL, text.align_left, na)
+    f_cell(1, 14, na(cmfVal) ? "n/a · no volume" : str.tostring(cmfVal, "#.####"), FG_COL, text.align_left, na)
+
+    f_cell(0, 15, "Signals · last " + str.tostring(statLookback) + " bars", DIM_COL, text.align_left, na)
+    f_cell(1, 15, na(hits) ? "—" : str.tostring(hits, "#"), FG_COL, text.align_left, na)
+
+    f_cell(0, 16, "Last signal", DIM_COL, text.align_left, na)
+    f_cell(1, 16, na(lastSigBar) ? "—" : (lastSigDir == 1 ? "▲ " : "▼ ") + str.tostring(lastSigRatio, "#.#") + "× · RSI " + str.tostring(lastSigRsi, "#.#") + " · " + str.tostring(bar_index - lastSigBar) + (bar_index - lastSigBar == 1 ? " bar" : " bars") + " ago", lastSigDir == 1 ? bullColor : bearColor, text.align_left, na)
+
+    f_cell(0, 17, "Since signal", DIM_COL, text.align_left, na)
+    f_cell(1, 17, na(movePct) ? "—" : (movePct >= 0 ? "+" : "") + str.tostring(movePct, "#.##") + "% price move", na(movePct) ? DIM_COL : movePct >= 0 ? OK_COL : BAD_COL, text.align_left, na)
+
+// ═════════════════════════════════════════ ALERTS ════════════════════════════════════════════
+
+alertcondition(anyConfirmed,    "Any signal",     "Morning/Evening Star + RSI reversal signal confirmed")
+alertcondition(bullConfirmed,   "Bullish signal", "Morning Star + RSI reversal confirmed")
+alertcondition(bearConfirmed,   "Bearish signal", "Evening Star + RSI reversal confirmed")
+alertcondition(strongConfirmed, "Strong signal",  "Strong Star + RSI reversal confirmed (body ratio >= threshold)")

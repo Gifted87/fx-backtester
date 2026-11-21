@@ -1,0 +1,113 @@
+Symbol,Interval,RSI_Len,RSI_Levels,RSI_Win,RSI_MA,Star_Body_Fac,Third_Body_Fac,First_Vs_Third,Star_Penetration,Star_Detach,Star_Color,SL_Source,SL_Buffer,RR_Ratio,Total_Trades,Wins,Losses,Win_Rate_Pct,Profit_Factor,Net_Profit_USD,Return_Pct,Expectancy_R,Avg_Bars,Composite_Score,Category,Profile
+EURUSD,5m,21,35/65,1,False,0.2,0.7,0.65,0.5,False,True,pattern_extreme,0.0,1.75,32,19,13,59.38,2.5,2201.45,22.01,0.63,9.1,1.8704699999999999,Major,Best_Overall
+EURUSD,5m,14,30/70,1,True,0.2,0.7,0.65,0.5,False,False,pattern_extreme,0.0,1.0,26,18,8,69.23,2.22,1037.39,10.37,0.38,8.4,,Major,Best_High_WinRate
+EURUSD,5m,21,35/65,1,False,0.2,0.6,0.65,0.5,True,False,pattern_extreme,0.0,2.0,22,13,9,59.09,2.83,1817.32,18.17,0.77,17.0,,Major,Best_2.0_RR
+EURUSD,5m,7,35/65,0,False,0.2,0.7,0.65,0.5,True,True,pattern_extreme,0.0,1.75,72,36,36,50.0,1.7,3004.87,30.05,0.38,7.8,,Major,Best_High_Frequency
+GBPUSD,5m,16,35/65,1,False,0.2,0.7,0.65,0.5,False,True,star_candle,0.0,1.25,43,29,14,67.44,2.61,2455.14,24.55,0.52,6.9,1.8305913600000001,Major,Best_Overall
+GBPUSD,5m,9,25/75,0,True,0.2,0.5,0.65,0.5,False,True,pattern_extreme,0.0,1.0,28,20,8,71.43,2.51,1259.24,12.59,0.43,5.5,,Major,Best_High_WinRate
+GBPUSD,5m,16,35/65,1,True,0.2,0.7,0.65,0.5,False,True,star_candle,0.0,2.0,23,13,10,56.52,2.58,1699.15,16.99,0.7,11.3,,Major,Best_2.0_RR
+GBPUSD,5m,14,35/65,0,False,0.2,0.5,0.65,0.5,False,True,pattern_extreme,0.0,1.0,69,45,24,65.22,1.91,2294.38,22.94,0.3,6.5,,Major,Best_High_Frequency
+USDJPY,5m,12,25/75,0,False,0.25,0.5,0.65,0.5,False,False,star_candle,0.0,1.25,34,26,8,76.47,3.88,2745.37,27.45,0.72,5.9,4.272531839999999,Major,Best_Overall
+USDJPY,5m,7,25/75,0,True,0.25,0.6,0.65,0.5,True,False,star_candle,0.0,1.0,28,22,6,78.57,3.69,1718.75,17.19,0.57,3.0,,Major,Best_High_WinRate
+USDJPY,5m,18,35/65,0,True,0.35,0.7,0.65,0.5,False,True,star_candle,0.0,2.0,22,14,8,63.64,3.49,2175.42,21.75,0.91,9.4,,Major,Best_2.0_RR
+USDJPY,5m,7,25/75,0,True,0.4,0.6,0.65,0.5,False,True,star_candle,0.0,1.0,60,43,17,71.67,2.54,2930.56,29.31,0.43,5.4,,Major,Best_High_Frequency
+AUDUSD,5m,10,35/65,0,True,0.4,0.7,0.65,0.5,True,False,star_candle,0.0,2.0,35,20,15,57.14,2.65,2780.01,27.8,0.71,8.0,2.1501782,Major,Best_Overall
+AUDUSD,5m,12,30/70,1,True,0.4,0.5,0.65,0.5,True,False,pattern_extreme,0.0,1.25,28,19,9,67.86,2.65,1567.04,15.67,0.53,8.1,,Major,Best_High_WinRate
+AUDUSD,5m,10,35/65,0,True,0.4,0.7,0.65,0.5,True,False,star_candle,0.0,2.0,35,20,15,57.14,2.65,2780.01,27.8,0.71,8.0,,Major,Best_2.0_RR
+AUDUSD,5m,12,35/65,1,False,0.2,0.6,0.65,0.5,False,False,pattern_extreme,0.0,1.25,87,52,35,59.77,1.85,3420.65,34.21,0.34,6.4,,Major,Best_High_Frequency
+USDCAD,5m,9,25/75,1,False,0.2,0.7,0.65,0.5,False,True,pattern_extreme,0.0,1.5,37,20,17,54.05,1.76,1353.22,13.53,0.35,5.9,0.6658959999999999,Major,Best_Overall
+USDCAD,5m,12,30/70,0,False,0.4,0.5,0.65,0.5,True,True,star_candle,0.0,1.0,25,16,9,64.0,1.77,711.71,7.12,0.28,4.0,,Major,Best_High_WinRate
+USDCAD,5m,9,25/75,1,False,0.2,0.6,0.65,0.5,True,False,star_candle,0.0,2.0,23,11,12,47.83,1.8,1021.08,10.21,0.43,11.6,,Major,Best_2.0_RR
+USDCAD,5m,12,30/70,0,False,0.4,0.5,0.65,0.5,False,False,star_candle,0.0,2.0,80,34,46,42.5,1.47,2348.8,23.49,0.28,7.7,,Major,Best_High_Frequency
+USDCHF,5m,9,25/75,0,False,0.4,0.5,0.65,0.5,True,False,star_candle,0.0,2.0,33,18,15,54.55,2.36,2283.75,22.84,0.64,9.3,1.6478464,Major,Best_Overall
+USDCHF,5m,10,25/75,1,False,0.2,0.5,0.65,0.5,True,False,pattern_extreme,0.0,1.0,25,17,8,68.0,2.08,928.11,9.28,0.36,4.8,,Major,Best_High_WinRate
+USDCHF,5m,9,25/75,0,False,0.2,0.5,0.65,0.5,True,False,star_candle,0.0,2.0,24,15,9,62.5,3.23,2294.74,22.95,0.88,10.0,,Major,Best_2.0_RR
+USDCHF,5m,9,25/75,0,False,0.25,0.5,0.65,0.5,False,False,star_candle,0.0,2.0,67,28,39,41.79,1.41,1764.61,17.65,0.25,7.8,,Major,Best_High_Frequency
+NZDUSD,5m,16,35/65,1,True,0.4,0.6,0.65,0.5,True,False,pattern_extreme,0.0,1.25,32,21,11,65.62,2.41,1622.05,16.22,0.48,7.2,1.51818432,Major,Best_Overall
+NZDUSD,5m,16,35/65,1,True,0.4,0.7,0.65,0.5,True,False,star_candle,0.0,1.0,26,18,8,69.23,2.27,1037.39,10.37,0.38,5.7,,Major,Best_High_WinRate
+NZDUSD,5m,18,25/75,1,False,0.4,0.7,0.65,0.5,False,False,star_candle,0.0,2.0,20,10,10,50.0,2.01,1024.37,10.24,0.5,20.9,,Major,Best_2.0_RR
+NZDUSD,5m,7,25/75,1,True,0.35,0.6,0.65,0.5,False,True,star_candle,0.0,1.25,60,36,24,60.0,1.85,2287.56,22.88,0.35,5.4,,Major,Best_High_Frequency
+EURGBP,5m,9,30/70,0,False,0.4,0.7,0.65,0.5,True,True,star_candle,0.0,1.5,38,25,13,65.79,2.91,2732.35,27.32,0.64,7.0,2.45054592,Minor / Cross,Best_Overall
+EURGBP,5m,10,25/75,1,False,0.4,0.7,0.65,0.5,True,False,star_candle,0.0,1.0,25,20,5,80.0,4.03,1603.89,16.04,0.6,4.7,,Minor / Cross,Best_High_WinRate
+EURGBP,5m,12,30/70,1,True,0.4,0.7,0.65,0.5,True,False,star_candle,0.0,2.0,23,14,9,60.87,3.12,2053.67,20.54,0.83,7.4,,Minor / Cross,Best_2.0_RR
+EURGBP,5m,7,25/75,1,False,0.35,0.6,0.65,0.5,True,True,star_candle,0.0,1.5,60,32,28,53.33,1.73,2153.43,21.53,0.33,8.3,,Minor / Cross,Best_High_Frequency
+EURJPY,5m,18,30/70,0,False,0.2,0.7,0.65,0.5,False,False,star_candle,0.0,1.5,30,22,8,73.33,4.01,2803.67,28.04,0.83,10.8,4.88128478,Minor / Cross,Best_Overall
+EURJPY,5m,10,25/75,0,True,0.25,0.6,0.65,0.5,False,False,pattern_extreme,0.0,1.0,26,21,5,80.77,4.2,1719.92,17.2,0.62,8.2,,Minor / Cross,Best_High_WinRate
+EURJPY,5m,18,30/70,0,False,0.2,0.7,0.65,0.5,False,True,star_candle,0.0,2.0,21,14,7,66.67,3.76,2298.4,22.98,1.0,16.1,,Minor / Cross,Best_2.0_RR
+EURJPY,5m,18,35/65,1,False,0.4,0.5,0.65,0.5,False,True,pattern_extreme,0.0,2.0,60,32,28,53.33,2.33,4222.99,42.23,0.6,13.1,,Minor / Cross,Best_High_Frequency
+EURAUD,5m,7,30/70,0,True,0.2,0.5,0.65,0.5,True,False,star_candle,0.0,2.0,31,18,13,58.06,2.58,2533.16,25.33,0.74,8.8,2.21696304,Minor / Cross,Best_Overall
+EURAUD,5m,18,35/65,1,False,0.25,0.5,0.65,0.5,True,False,star_candle,0.0,1.0,26,19,7,73.08,2.6,1260.36,12.6,0.46,5.5,,Minor / Cross,Best_High_WinRate
+EURAUD,5m,12,30/70,0,True,0.2,0.6,0.65,0.5,False,True,pattern_extreme,0.0,2.0,21,14,7,66.67,3.82,2298.4,22.98,1.0,13.3,,Minor / Cross,Best_2.0_RR
+EURAUD,5m,7,30/70,0,True,0.35,0.7,0.65,0.5,False,True,pattern_extreme,0.0,2.0,64,30,34,46.88,1.73,2870.69,28.71,0.41,10.7,,Minor / Cross,Best_High_Frequency
+EURCAD,5m,12,25/75,2,False,0.25,0.5,0.65,0.5,False,False,star_candle,0.0,2.0,30,17,13,56.67,2.68,2287.41,22.87,0.7,8.3,2.1262583999999998,Minor / Cross,Best_Overall
+EURCAD,5m,16,30/70,2,False,0.25,0.6,0.65,0.5,False,False,star_candle,0.0,1.0,39,27,12,69.23,2.27,1595.77,15.96,0.38,2.3,,Minor / Cross,Best_High_WinRate
+EURCAD,5m,12,25/75,2,False,0.2,0.5,0.65,0.5,False,False,star_candle,0.0,2.0,25,15,10,60.0,3.1,2171.79,21.72,0.8,7.2,,Minor / Cross,Best_2.0_RR
+EURCAD,5m,16,30/70,2,False,0.35,0.5,0.65,0.5,False,False,star_candle,0.0,1.25,60,37,23,61.67,1.99,2566.83,25.67,0.39,5.7,,Minor / Cross,Best_High_Frequency
+EURCHF,5m,18,30/70,0,False,0.35,0.5,0.65,0.5,False,False,star_candle,0.0,1.5,30,19,11,63.33,2.64,1880.7,18.81,0.58,7.0,1.93941792,Minor / Cross,Best_Overall
+EURCHF,5m,9,25/75,1,False,0.2,0.5,0.65,0.5,True,False,star_candle,0.0,1.0,27,19,8,70.37,2.38,1147.76,11.48,0.41,2.8,,Minor / Cross,Best_High_WinRate
+EURCHF,5m,12,25/75,0,False,0.2,0.6,0.65,0.5,False,False,star_candle,0.0,2.0,20,11,9,55.0,2.49,1358.44,13.58,0.65,11.0,,Minor / Cross,Best_2.0_RR
+EURCHF,5m,7,25/75,0,False,0.25,0.7,0.65,0.5,False,False,star_candle,0.0,1.5,62,32,30,51.61,1.65,1911.58,19.12,0.29,5.9,,Minor / Cross,Best_High_Frequency
+EURNZD,5m,14,35/65,0,False,0.25,0.5,0.65,0.5,True,True,star_candle,0.0,1.5,38,26,12,68.42,3.19,3053.87,30.54,0.71,10.3,3.09928916,Minor / Cross,Best_Overall
+EURNZD,5m,14,35/65,0,False,0.25,0.5,0.65,0.5,True,True,star_candle,0.0,1.0,38,28,10,73.68,2.8,1949.52,19.5,0.47,6.8,,Minor / Cross,Best_High_WinRate
+EURNZD,5m,16,25/75,1,False,0.4,0.6,0.65,0.5,False,False,pattern_extreme,0.0,2.0,22,13,9,59.09,2.81,1817.32,18.17,0.77,9.3,,Minor / Cross,Best_2.0_RR
+EURNZD,5m,9,30/70,1,False,0.35,0.5,0.65,0.5,True,True,star_candle,0.0,1.5,61,37,24,60.66,2.3,3629.76,36.3,0.52,9.4,,Minor / Cross,Best_High_Frequency
+GBPJPY,5m,10,25/75,0,False,0.35,0.5,0.65,0.5,False,True,pattern_extreme,0.0,1.25,34,25,9,73.53,3.49,2462.14,24.62,0.65,9.6,3.3360561000000004,Minor / Cross,Best_Overall
+GBPJPY,5m,10,25/75,0,True,0.4,0.5,0.65,0.5,False,True,pattern_extreme,0.0,1.25,25,19,6,76.0,3.94,1921.11,19.21,0.71,8.6,,Minor / Cross,Best_High_WinRate
+GBPJPY,5m,16,25/75,1,False,0.35,0.5,0.65,0.5,False,True,star_candle,0.0,2.0,20,12,8,60.0,3.04,1702.63,17.03,0.8,11.1,,Minor / Cross,Best_2.0_RR
+GBPJPY,5m,9,25/75,2,False,0.35,0.5,0.65,0.5,False,True,pattern_extreme,0.0,1.0,62,41,21,66.13,1.94,2176.3,21.76,0.32,6.9,,Minor / Cross,Best_High_Frequency
+GBPAUD,5m,7,30/70,0,True,0.2,0.6,0.65,0.5,True,True,pattern_extreme,0.0,1.75,41,22,19,53.66,2.03,2101.13,21.01,0.48,10.0,1.04572608,Minor / Cross,Best_Overall
+GBPAUD,5m,12,30/70,1,True,0.2,0.7,0.65,0.5,False,False,star_candle,0.0,1.0,29,19,10,65.52,1.91,925.92,9.26,0.31,6.0,,Minor / Cross,Best_High_WinRate
+GBPAUD,5m,21,35/65,0,True,0.25,0.5,0.65,0.5,False,False,star_candle,0.0,2.0,22,12,10,54.55,2.35,1469.75,14.7,0.64,11.4,,Minor / Cross,Best_2.0_RR
+GBPAUD,5m,7,25/75,1,True,0.2,0.5,0.65,0.5,False,False,pattern_extreme,0.0,1.75,62,31,31,50.0,1.76,2538.86,25.39,0.38,11.2,,Minor / Cross,Best_High_Frequency
+GBPCAD,5m,9,25/75,1,False,0.2,0.6,0.65,0.5,False,True,star_candle,0.0,2.0,31,20,11,64.52,3.51,3304.26,33.04,0.94,9.5,4.257545759999999,Minor / Cross,Best_Overall
+GBPCAD,5m,12,25/75,0,False,0.4,0.5,0.65,0.5,False,True,pattern_extreme,0.0,1.0,25,22,3,88.0,7.5,2077.47,20.77,0.76,2.5,,Minor / Cross,Best_High_WinRate
+GBPCAD,5m,10,25/75,1,False,0.2,0.7,0.65,0.5,False,True,star_candle,0.0,2.0,22,15,7,68.18,4.22,2544.37,25.44,1.05,9.4,,Minor / Cross,Best_2.0_RR
+GBPCAD,5m,7,25/75,1,False,0.2,0.7,0.65,0.5,False,True,star_candle,0.0,2.0,60,35,25,58.33,2.71,5555.57,55.56,0.75,8.0,,Minor / Cross,Best_High_Frequency
+GBPCHF,5m,10,25/75,2,True,0.4,0.6,0.65,0.5,False,True,star_candle,0.0,1.75,31,17,14,54.84,2.17,1667.5,16.68,0.51,14.2,1.2138285599999998,Minor / Cross,Best_Overall
+GBPCHF,5m,10,25/75,2,True,0.4,0.6,0.65,0.5,False,True,star_candle,0.0,1.0,32,20,12,62.5,1.68,815.58,8.16,0.25,7.2,,Minor / Cross,Best_High_WinRate
+GBPCHF,5m,10,25/75,2,True,0.4,0.6,0.65,0.5,False,True,star_candle,0.0,2.0,30,15,15,50.0,2.04,1575.25,15.75,0.5,12.8,,Minor / Cross,Best_2.0_RR
+GBPCHF,5m,7,25/75,1,False,0.2,0.6,0.65,0.5,False,True,pattern_extreme,0.0,1.5,64,32,32,50.0,1.48,1674.53,16.75,0.25,9.1,,Minor / Cross,Best_High_Frequency
+GBPNZD,5m,18,35/65,1,False,0.4,0.5,0.65,0.5,True,True,star_candle,0.0,2.0,30,17,13,56.67,2.65,2287.41,22.87,0.7,11.6,2.102457,Minor / Cross,Best_Overall
+GBPNZD,5m,16,35/65,1,False,0.4,0.7,0.65,0.5,True,True,star_candle,0.0,1.0,26,19,7,73.08,2.72,1260.36,12.6,0.46,4.8,,Minor / Cross,Best_High_WinRate
+GBPNZD,5m,18,35/65,1,False,0.4,0.7,0.65,0.5,True,True,star_candle,0.0,2.0,24,15,9,62.5,3.42,2294.74,22.95,0.88,10.7,,Minor / Cross,Best_2.0_RR
+GBPNZD,5m,10,35/65,2,False,0.25,0.5,0.65,0.5,True,True,star_candle,0.0,2.0,61,24,37,39.34,1.28,1089.36,10.89,0.18,6.9,,Minor / Cross,Best_High_Frequency
+AUDJPY,5m,18,35/65,0,False,0.2,0.6,0.65,0.5,False,True,pattern_extreme,0.0,2.0,36,20,16,55.56,2.4,2652.21,26.52,0.67,13.9,1.7868096,Minor / Cross,Best_Overall
+AUDJPY,5m,14,30/70,0,False,0.35,0.6,0.65,0.5,True,True,star_candle,0.0,1.0,25,17,8,68.0,2.12,928.11,9.28,0.36,4.2,,Minor / Cross,Best_High_WinRate
+AUDJPY,5m,14,30/70,1,False,0.2,0.6,0.65,0.5,True,True,star_candle,0.0,2.0,20,11,9,55.0,2.43,1358.44,13.58,0.65,7.7,,Minor / Cross,Best_2.0_RR
+AUDJPY,5m,14,35/65,1,False,0.4,0.7,0.65,0.5,False,True,pattern_extreme,0.0,2.0,80,42,38,52.5,2.11,5679.95,56.8,0.57,9.5,,Minor / Cross,Best_High_Frequency
+AUDCAD,5m,21,35/65,0,True,0.4,0.6,0.65,0.5,False,False,star_candle,0.0,1.5,33,17,16,51.52,1.59,966.95,9.67,0.29,8.8,0.47511743999999995,Minor / Cross,Best_Overall
+AUDCAD,5m,18,30/70,0,False,0.4,0.7,0.65,0.5,False,False,star_candle,0.0,1.0,32,18,14,56.25,1.27,391.48,3.91,0.12,4.6,,Minor / Cross,Best_High_WinRate
+AUDCAD,5m,21,35/65,1,True,0.35,0.6,0.65,0.5,False,True,star_candle,0.0,2.0,24,11,13,45.83,1.69,910.87,9.11,0.38,11.4,,Minor / Cross,Best_2.0_RR
+AUDCAD,5m,12,35/65,2,True,0.35,0.6,0.65,0.5,False,True,pattern_extreme,0.0,2.0,60,26,34,43.33,1.51,1890.53,18.91,0.3,12.8,,Minor / Cross,Best_High_Frequency
+AUDCHF,5m,18,30/70,2,False,0.35,0.7,0.65,0.5,False,False,star_candle,0.0,1.5,30,19,11,63.33,2.59,1880.7,18.81,0.58,9.8,1.9026865199999996,Minor / Cross,Best_Overall
+AUDCHF,5m,16,35/65,0,False,0.4,0.7,0.65,0.5,True,False,pattern_extreme,0.0,1.0,25,18,7,72.0,2.55,1148.88,11.49,0.44,9.4,,Minor / Cross,Best_High_WinRate
+AUDCHF,5m,12,25/75,2,False,0.4,0.7,0.65,0.5,False,True,star_candle,0.0,2.0,20,11,9,55.0,2.42,1358.44,13.58,0.65,7.2,,Minor / Cross,Best_2.0_RR
+AUDCHF,5m,18,35/65,0,False,0.35,0.6,0.65,0.5,False,False,star_candle,0.0,1.0,61,37,24,60.66,1.52,1353.65,13.54,0.21,6.8,,Minor / Cross,Best_High_Frequency
+AUDNZD,5m,12,25/75,1,False,0.4,0.7,0.65,0.5,False,False,pattern_extreme,0.0,1.75,33,18,15,54.55,2.1,1752.96,17.53,0.5,11.8,1.14555,Minor / Cross,Best_Overall
+AUDNZD,5m,18,35/65,2,True,0.2,0.5,0.65,0.5,False,False,star_candle,0.0,1.0,30,20,10,66.67,2.01,1035.18,10.35,0.33,6.9,,Minor / Cross,Best_High_WinRate
+AUDNZD,5m,18,35/65,2,True,0.2,0.5,0.65,0.5,False,True,star_candle,0.0,2.0,24,13,11,54.17,2.39,1582.16,15.82,0.62,13.8,,Minor / Cross,Best_2.0_RR
+AUDNZD,5m,18,35/65,0,False,0.35,0.5,0.65,0.5,False,False,pattern_extreme,0.0,1.0,80,48,32,60.0,1.51,1688.32,16.88,0.2,6.0,,Minor / Cross,Best_High_Frequency
+CADJPY,5m,7,30/70,1,True,0.2,0.5,0.65,0.5,True,False,pattern_extreme,0.0,1.0,36,30,6,83.33,5.0,2689.73,26.9,0.67,3.2,5.58311,Minor / Cross,Best_Overall
+CADJPY,5m,7,30/70,0,True,0.2,0.5,0.65,0.5,True,False,pattern_extreme,0.0,1.0,27,23,4,85.19,5.72,2076.26,20.76,0.7,2.6,,Minor / Cross,Best_High_WinRate
+CADJPY,5m,10,25/75,1,False,0.2,0.5,0.65,0.5,True,True,star_candle,0.0,2.0,20,13,7,65.0,3.6,2057.26,20.57,0.95,13.8,,Minor / Cross,Best_2.0_RR
+CADJPY,5m,10,35/65,1,False,0.2,0.5,0.65,0.5,True,False,star_candle,0.0,1.0,62,43,19,69.35,2.25,2673.24,26.73,0.39,3.8,,Minor / Cross,Best_High_Frequency
+CADCHF,5m,12,30/70,0,False,0.35,0.5,0.65,0.5,True,False,pattern_extreme,0.0,1.0,34,26,8,76.47,3.26,1951.91,19.52,0.53,4.5,2.64249732,Minor / Cross,Best_Overall
+CADCHF,5m,14,30/70,0,False,0.4,0.5,0.65,0.5,True,False,pattern_extreme,0.0,1.0,26,20,6,76.92,3.36,1487.85,14.88,0.54,4.4,,Minor / Cross,Best_High_WinRate
+CADCHF,5m,21,35/65,1,False,0.35,0.6,0.65,0.5,True,False,pattern_extreme,0.0,2.0,20,9,11,45.0,1.61,700.12,7.0,0.35,17.9,,Minor / Cross,Best_2.0_RR
+CADCHF,5m,12,30/70,0,False,0.35,0.5,0.65,0.5,False,True,pattern_extreme,0.0,1.0,61,37,24,60.66,1.54,1353.65,13.54,0.21,4.1,,Minor / Cross,Best_High_Frequency
+CHFJPY,5m,7,25/75,0,True,0.4,0.7,0.65,0.5,False,False,pattern_extreme,0.0,1.0,47,32,15,68.09,2.07,1825.29,18.25,0.36,7.2,1.01481336,Minor / Cross,Best_Overall
+CHFJPY,5m,14,30/70,1,True,0.25,0.5,0.65,0.5,False,False,star_candle,0.0,1.0,25,18,7,72.0,2.54,1148.88,11.49,0.44,5.6,,Minor / Cross,Best_High_WinRate
+CHFJPY,5m,14,30/70,1,True,0.2,0.5,0.65,0.5,False,False,star_candle,0.0,2.0,21,11,10,52.38,2.16,1244.85,12.45,0.57,14.7,,Minor / Cross,Best_2.0_RR
+CHFJPY,5m,10,35/65,0,True,0.25,0.6,0.65,0.5,False,False,star_candle,0.0,2.0,65,29,36,44.62,1.59,2367.22,23.67,0.34,9.0,,Minor / Cross,Best_High_Frequency
+NZDJPY,5m,9,30/70,1,True,0.35,0.7,0.65,0.5,True,False,star_candle,0.0,2.0,31,19,12,61.29,3.23,2912.95,29.13,0.84,12.4,3.32584056,Minor / Cross,Best_Overall
+NZDJPY,5m,18,30/70,1,False,0.25,0.6,0.65,0.5,False,False,star_candle,0.0,1.0,27,20,7,74.07,2.84,1372.97,13.73,0.48,9.1,,Minor / Cross,Best_High_WinRate
+NZDJPY,5m,9,30/70,1,True,0.25,0.7,0.65,0.5,True,False,star_candle,0.0,2.0,24,15,9,62.5,3.4,2294.74,22.95,0.88,14.7,,Minor / Cross,Best_2.0_RR
+NZDJPY,5m,9,30/70,1,True,0.25,0.7,0.65,0.5,False,False,star_candle,0.0,2.0,61,29,32,47.54,1.86,2874.52,28.75,0.43,10.9,,Minor / Cross,Best_High_Frequency
+NZDCAD,5m,7,30/70,1,True,0.2,0.6,0.65,0.5,True,True,pattern_extreme,0.0,1.0,39,27,12,69.23,2.29,1595.77,15.96,0.38,4.9,1.20487892,Minor / Cross,Best_Overall
+NZDCAD,5m,7,30/70,1,True,0.2,0.6,0.65,0.5,True,True,pattern_extreme,0.0,1.0,39,27,12,69.23,2.29,1595.77,15.96,0.38,4.9,,Minor / Cross,Best_High_WinRate
+NZDCAD,5m,12,30/70,0,False,0.25,0.7,0.65,0.5,True,False,pattern_extreme,0.0,2.0,22,11,11,50.0,1.99,1132.41,11.32,0.5,14.9,,Minor / Cross,Best_2.0_RR
+NZDCAD,5m,9,35/65,1,False,0.2,0.6,0.65,0.5,True,True,pattern_extreme,0.0,1.0,61,39,22,63.93,1.75,1817.02,18.17,0.28,4.3,,Minor / Cross,Best_High_Frequency
+NZDCHF,5m,18,35/65,0,True,0.35,0.6,0.65,0.5,False,False,star_candle,0.0,1.25,34,24,10,70.59,2.91,2185.2,21.85,0.59,11.3,2.4239194200000003,Minor / Cross,Best_Overall
+NZDCHF,5m,14,25/75,1,False,0.25,0.7,0.65,0.5,False,False,star_candle,0.0,1.0,25,19,6,76.0,3.11,1374.11,13.74,0.52,5.5,,Minor / Cross,Best_High_WinRate
+NZDCHF,5m,18,35/65,0,True,0.25,0.7,0.65,0.5,False,False,star_candle,0.0,2.0,22,11,11,50.0,2.01,1132.41,11.32,0.5,17.1,,Minor / Cross,Best_2.0_RR
+NZDCHF,5m,14,30/70,1,False,0.35,0.6,0.65,0.5,False,False,star_candle,0.0,1.0,61,39,22,63.93,1.76,1817.02,18.17,0.28,5.0,,Minor / Cross,Best_High_Frequency

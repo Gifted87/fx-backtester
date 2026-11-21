@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Testing & caches
+.pytest_cache/
+*.log
+
+# Historical data & raw market data caches (prefetched via prefetch_10yr_data.py)
+data/cache/
+*.parquet
+
+# Large batch research raw outputs (generated via batch_research_engine.py)
+reports/batch_research/
+
+# OS and Editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

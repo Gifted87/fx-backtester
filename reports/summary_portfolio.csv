@@ -1,0 +1,2 @@
+Symbol,Initial_Capital,Ending_Equity,Net_Profit_USD,Return_Pct,Total_Trades,Win_Rate_Pct,Profit_Factor,Sharpe_Ratio,Sortino_Ratio,Max_Drawdown_Pct,Expectancy_USD,Expectancy_R,Avg_Trade_Bars
+EURUSD,10000.0,9749.87,-250.13,-2.5,75,33.33,0.95,-0.19,-0.04,16.98,-3.34,-0.02,11.0

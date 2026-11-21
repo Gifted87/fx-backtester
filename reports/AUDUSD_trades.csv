@@ -1,0 +1,2 @@
+symbol,direction,entry_time,exit_time,entry_price,exit_price,stop_loss,take_profit,lots,risk_pips,pnl_pips,pnl_usd,r_multiple,commission,exit_reason,duration_bars,equity_after
+AUDUSD,LONG,2026-06-24 17:00:00+00:00,2026-06-24 18:00:00+00:00,0.69021,0.68829,0.68836,0.69298,0.54,18.5,-19.2,-107.46,-1.04,3.78,SL,1,9892.54

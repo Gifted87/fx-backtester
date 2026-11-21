@@ -1,0 +1,2 @@
+symbol,direction,entry_time,exit_time,entry_price,exit_price,stop_loss,take_profit,lots,risk_pips,pnl_pips,pnl_usd,r_multiple,commission,exit_reason,duration_bars,equity_after
+USDCAD,LONG,2026-04-14 06:00:00+00:00,2026-04-14 07:00:00+00:00,1.37866,1.37785,1.37793,1.37974,1.9,7.2,-8.1,-125.07,-1.12,13.3,SL,1,9874.93

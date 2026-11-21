@@ -1,0 +1,2 @@
+symbol,direction,entry_time,exit_time,entry_price,exit_price,stop_loss,take_profit,lots,risk_pips,pnl_pips,pnl_usd,r_multiple,commission,exit_reason,duration_bars,equity_after
+GBPUSD,SHORT,2026-07-02 16:00:00+00:00,2026-07-03 01:00:00+00:00,1.3361,1.33608,1.336,1.33229,0.39,25.4,0.2,-1.95,0.01,2.73,SL,9,9998.05
